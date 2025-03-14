@@ -1,0 +1,63 @@
+informed search algorithm 
+
+code:
+
+import math
+
+increment = 0.1
+startingPoint = [1, 1]
+point1 = [1, 5]
+point2 = [2, 1]
+point3 = [2, 5]
+point4 = [3, 1]
+
+def distance(x1, y1, x2, y2):
+    dist = math.pow(x2 - x1, 2) + math.pow(y2 - y1, 2)
+    return dist
+
+def sumOfDistances(x1, y1, p1, p2, p3, p4):
+    d1 = distance(x1, y1, p1[0], p1[1])
+    d2 = distance(x1, y1, p2[0], p2[1])
+    d3 = distance(x1, y1, p3[0], p3[1])
+    d4 = distance(x1, y1, p4[0], p4[1])
+    return d1 + d2 + d3 + d4
+
+def newDistance(x1, y1, p1, p2, p3, p4):
+    return sumOfDistances(x1, y1, p1, p2, p3, p4)
+
+d1_vals = []
+d2_vals = []
+d3_vals = []
+d4_vals = []
+
+flag = True
+i = 1
+
+while flag:
+    d1_temp = newDistance(startingPoint[0] - increment, startingPoint[1], point1, point2, point3, point4)
+    d2_temp = newDistance(startingPoint[0], startingPoint[1] - increment, point1, point2, point3, point4)
+    d3_temp = newDistance(startingPoint[0] + increment, startingPoint[1], point1, point2, point3, point4)
+    d4_temp = newDistance(startingPoint[0], startingPoint[1] + increment, point1, point2, point3, point4)
+
+    d1_vals.append(d1_temp)
+    d2_vals.append(d2_temp)
+    d3_vals.append(d3_temp)
+    d4_vals.append(d4_temp)
+
+    minimum = min(d1_temp, d2_temp, d3_temp, d4_temp)
+
+    if d1_temp == minimum:
+        startingPoint[0] -= increment
+    elif d2_temp == minimum:
+        startingPoint[1] -= increment
+    elif d3_temp == minimum:
+        startingPoint[0] += increment
+    elif d4_temp == minimum:
+        startingPoint[1] += increment
+
+    print(i, round(startingPoint[0], 2), round(startingPoint[1], 2))
+
+    i += 1
+
+    if i > 50:
+        flag = False
