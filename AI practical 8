@@ -1,0 +1,52 @@
+Aim : Write the program to compute the following Algorithms for suitable problem
+
+A] Linear regression 
+
+code:
+import numpy as np
+
+class LinearRegression:
+    def fit(self, X, y):
+        X = np.c_[np.ones((X.shape[0], 1)), X]
+        self.coefficients = np.linalg.inv(X.T.dot(X)).dot(X.T).dot(y)
+
+    def predict(self, X):
+        X = np.c_[np.ones((X.shape[0], 1)), X]
+        return X.dot(self.coefficients)
+
+def main():
+    X = np.array([[1], [2], [3], [4], [5]])
+    y = np.array([2, 4, 5, 4, 5])
+
+    model = LinearRegression()
+    model.fit(X, y)
+
+    X_test = np.array([[6], [7]])
+    predictions = model.predict(X_test)
+
+    print("Predictions:", predictions)
+
+if __name__ == "__main__":
+    main()
+
+B] Classification Problems
+
+code:
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+iris = load_iris()
+X, y = iris.data, iris.target
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+clf = KNeighborsClassifier(n_neighbors=3)
+
+clf.fit(X_train, y_train)
+
+y_pred = clf.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
